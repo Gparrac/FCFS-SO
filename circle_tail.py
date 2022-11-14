@@ -74,10 +74,13 @@ class circle_list:
             val = True;
             q = self.cab.next
             while q != self.cab:
-                if not q.run_critical_section(self.window,self.count_box,val) : 
+                if not q.run_critical_section(self.window,self.count_box,val) :                                         
+                    if q.auxRafaga > q.rafaga.get() and q.next != self.cab:
+                        q.next.run_critical_section(self.window,self.count_box,val)
+                        q=q.next
                     val = False    
                     self.pro = q   #pendiente         
-                q = q.next;  
+                q = q.next
             self.count_box += 1
             
         
@@ -85,17 +88,14 @@ class circle_list:
     def block_proc(self):
         #pendiente
         dec = random.choice([True,False])
-        if  dec :
-            q = self.cab.next
-            while q != self.cab:
-                if q.bloqueo.get()=='run' and q.next != self.cab:
-                    print('validando bloc=>',q.bloqueo.get(),'proceso=>',q.name,'rafaga=>',q.auxRafaga)
+        if  dec and self.pro.next != self.cab :        
+                    print('proceso=>',self.pro.name,'rafaga=>',self.pro.auxRafaga,'')
                     aux = node('aux')
-                    q.bloqueo.set("with")
-                    aux.change_values(q.name,q.rafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart)
-                    q.change_values(q.next.name,q.next.rafaga,q.next.t_llegada,q.next.t_final,q.next.t_comienzo,q.next.t_retorno,q.next.t_espera,q.next.bloqueo,q.next.row_chart)
-                    q.next.change_values(aux.name,aux.rafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart)
-                q=q.next
+                    self.pro.bloqueo.set("with")
+                    aux.change_values(self.pro.name,self.pro.rafaga,self.pro.t_llegada,self.pro.t_final,self.pro.t_comienzo,self.pro.t_retorno,self.pro.t_espera,self.pro.bloqueo,self.pro.row_chart)
+                    self.pro.change_values(self.pro.next.name,self.pro.next.rafaga,self.pro.next.t_llegada,self.pro.next.t_final,self.pro.next.t_comienzo,self.pro.next.t_retorno,self.pro.next.t_espera,self.pro.next.bloqueo,self.pro.next.row_chart)
+                    self.pro.next.change_values(aux.name,aux.rafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart)
+                
                 
 
 

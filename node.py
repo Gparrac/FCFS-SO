@@ -35,11 +35,10 @@ class node:  # creamos estructura nodo
 
     def run_critical_section(self, window, column, val):
         if val:
-            if self.auxRafaga < self.rafaga.get():
+            if self.auxRafaga <= self.rafaga.get():
                 if self.bloqueo.get() == 'with':
-                    self.bloqueo.set('run')
-                if self.auxRafaga == 1:
-                    self.bloqueo.set('run')
+                    self.bloqueo.set('without')
+                if self.auxRafaga == 1:                    
                     self.t_comienzo.set(column-1)                
                 self.cal_t_final()
                 self.cal_t_retorno()
@@ -48,14 +47,12 @@ class node:  # creamos estructura nodo
                 Label(window, width=2, height=1, background="blue").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return False
-            else:
-                self.bloqueo.set('without')
+            else:                   
                 Label(window, width=2, height=1, background="grey").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
         else:
-            if self.bloqueo.get() in ['without', 'run']:
-                self.bloqueo.set('without')
+            if self.bloqueo.get() == 'without':
                 Label(window, width=2, height=1, background="grey").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
