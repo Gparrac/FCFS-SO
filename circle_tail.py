@@ -75,12 +75,11 @@ class circle_list:
             q = self.cab.next
             while q != self.cab:
                 if not q.run_critical_section(self.window,self.count_box,val) :                                         
-                    if q.auxRafaga > q.rafaga.get() and q.next != self.cab:
+                    while q.auxRafaga > q.rafaga.get() and q.next != self.cab:
                         q.next.run_critical_section(self.window,self.count_box,val)
                         q=q.next
                     val = False    
                     self.pro = q   #pendiente    
-                   #print(self.count_box,'prueba=>',self.pro.name,'rafaga',self.pro.auxRafaga)                    
                          
                 q = q.next
             self.count_box += 1
@@ -88,9 +87,7 @@ class circle_list:
         
         self.window.after(3000,self.run_chart)
     def block_proc(self,loop):
-        
-        # print('==> antes bloqueo')
-        # self.print_all()
+
         dec = random.choice([True,False])
         if  dec and self.pro.next != self.cab and self.pro.auxRafaga != 1 and self.pro.auxRafaga <= self.pro.rafaga.get():        
                     print(loop,'prueba=>',self.pro.name,'rafaga',self.pro.auxRafaga)                    
@@ -100,7 +97,8 @@ class circle_list:
                     self.pro.change_values(self.pro.next.name,self.pro.next.rafaga,self.pro.next.auxRafaga,self.pro.next.t_llegada,self.pro.next.t_final,self.pro.next.t_comienzo,self.pro.next.t_retorno,self.pro.next.t_espera,self.pro.next.bloqueo,self.pro.next.row_chart)
                     self.pro.next.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart)
                     print('==> despues bloqueo')
-                    self.print_all()            
+                    self.print_all()  
+              
 if __name__ == '__main__':
     form = form()
     window = Tk()
