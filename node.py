@@ -34,6 +34,7 @@ class node:  # creamos estructura nodo
             column=row_table*6, row=last_table, padx=5, pady=5, columnspan=row_table)
 
     def run_critical_section(self, window, column, val):
+        print('proceso:',self.name,'rafaga:',self.auxRafaga,'estado',self.bloqueo.get())
         if val:
             if self.auxRafaga <= self.rafaga.get():
                 if self.bloqueo.get() == 'with':
@@ -88,7 +89,7 @@ class node:  # creamos estructura nodo
     def cal_t_espera(self):
         self.t_espera.set(self.t_retorno.get()-self.auxRafaga)
 
-    def change_values(self, name, rafaga, t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart):
+    def change_values(self, name, rafaga, auxRafaga ,t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart):
         self.name = name
         self.rafaga = rafaga
         self.t_llegada = t_llegada
@@ -98,11 +99,11 @@ class node:  # creamos estructura nodo
         self.t_espera = t_espera
         self.bloqueo = bloqueo
         self.row_chart = row_chart
+        self.auxRafaga = auxRafaga
 
     def print(self):
         print('----')
         print('name', self.name)
-        print('rafaga', self.rafaga.get())
-        print('t_llegada', self.t_llegada.get())
-        print('t_llegada', self.row_chart)
+        print('rafaga', self.auxRafaga)
+        print('estado', self.bloqueo.get())
         print('----')
