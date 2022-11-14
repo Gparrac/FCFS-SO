@@ -61,24 +61,6 @@ class node:  # creamos estructura nodo
                 Label(window, width=2, height=1, background="red").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
-        # if val and self.auxRafaga <= self.rafaga.get():
-        #     if self.bloqueo.get() !="without":
-        #         self.bloqueo.set('without')
-        #     if self.auxRafaga == 1:
-        #         self.t_comienzo.set(column-1)
-        #     Label(window, width=2, height=1, background="blue").grid(column=column,row=self.row_chart,padx=5,pady=5)
-        #     self.cal_t_final()
-        #     self.cal_t_retorno()
-        #     self.cal_t_espera()
-        #     self.auxRafaga +=1
-        #     return False
-
-        # else:
-        #     if self.bloqueo.get() !="without":
-        #         Label(window, width=2, height=1, background="red").grid(column=column,row=self.row_chart,padx=5,pady=5)
-        #     else:
-        #         Label(window, width=2, height=1, background="gray").grid(column=column,row=self.row_chart,padx=5,pady=5)
-        #     return True
 
     def cal_t_final(self):
         self.t_final.set(self.auxRafaga+self.t_comienzo.get())
