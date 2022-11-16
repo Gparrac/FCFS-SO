@@ -21,7 +21,7 @@ class circle_list:
         count_rows_tab = self.rows_table
         for i in range(1,self.total_pro+1):
             last_node = self.search_last()
-            name = f'nd ${i}'
+            name = f'P {i}'
             last_node.next = node(name, self.cab)  
             last_node.next.create_space(self.window,count_chart,count_table,self.total_pro,count_rows_tab)        
             count_chart += 1
@@ -29,16 +29,16 @@ class circle_list:
     def create_dashboard(self):        
         
         for i in range(1,self.total_grid + 1):
-            Label(self.window, width=2,text=i ,height=1).grid(column=i,row=0,padx=5,pady=5)
-        Button(self.window, text="FCFS",command=self.start).grid(column=1,row=self.total_pro+1,columnspan=self.total_grid)
+            Label(self.window, width=2,text=i ,height=1,background='#0d1011',fg="#66d9ef",font=('Arial',15)).grid(column=i,row=0,padx=5,pady=5)
+        Button(self.window, text="FCFS",command=self.start,background='#fd971f',fg='#0d1011',font=("Arial",25)).grid(column=1,row=self.total_pro+1,columnspan=self.total_grid,pady=20)
         tableHeader=LabelFrame(self.window,background="red").grid(column=0,row=self.total_pro+2,columnspan=self.total_grid)
-        Label(tableHeader, text="Proceso", background="yellow").grid(column=1,row=self.total_pro+2,columnspan=self.rows_table)
-        Label(tableHeader, text="T. llegada", background="yellow").grid(column=self.rows_table,row=self.total_pro+2,columnspan=self.rows_table)
-        Label(tableHeader, text="Rafaga", background="yellow").grid(column=self.rows_table*2,row=self.total_pro+2,columnspan=self.rows_table)
-        Label(tableHeader, text="T. Comienzo", background="yellow").grid(column=self.rows_table*3,row=self.total_pro+2,columnspan=self.rows_table)
-        Label(tableHeader, text="T. Final", background="yellow").grid(column=self.rows_table*4,row=self.total_pro+2,columnspan=self.rows_table)
-        Label(tableHeader, text="T. Retorno", background="yellow").grid(column=self.rows_table*5,row=self.total_pro+2,columnspan=self.rows_table)
-        Label(tableHeader, text="T. Espera", background="yellow").grid(column=self.rows_table*6,row=self.total_pro+2,columnspan=self.rows_table)        
+        Label(tableHeader, text="Proceso", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=1,row=self.total_pro+2,columnspan=self.rows_table)
+        Label(tableHeader, text="T. llegada", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table,row=self.total_pro+2,columnspan=self.rows_table)
+        Label(tableHeader, text="Rafaga", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table*2,row=self.total_pro+2,columnspan=self.rows_table)
+        Label(tableHeader, text="T. Comienzo", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table*3,row=self.total_pro+2,columnspan=self.rows_table)
+        Label(tableHeader, text="T. Final", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table*4,row=self.total_pro+2,columnspan=self.rows_table)
+        Label(tableHeader, text="T. Retorno", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table*5,row=self.total_pro+2,columnspan=self.rows_table)
+        Label(tableHeader, text="T. Espera", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table*6,row=self.total_pro+2,columnspan=self.rows_table)        
     def start(self):
         self.order_asc()
         self.pro = self.cab.next
@@ -68,9 +68,7 @@ class circle_list:
             q = q.next;   
     def run_chart(self):
         self.block_proc(self.count_box)
-        print('loop=>',self.count_box)
         if self.count_box <= self.total_grid:
-            print('entrando!')
             val = True;
             q = self.cab.next
             while q != self.cab:
@@ -90,19 +88,18 @@ class circle_list:
 
         dec = random.choice([True,False])
         if  dec and self.pro.next != self.cab and self.pro.auxRafaga != 1 and self.pro.auxRafaga <= self.pro.rafaga.get():        
-                    print(loop,'prueba=>',self.pro.name,'rafaga',self.pro.auxRafaga)                    
                     aux = node('aux')
                     self.pro.bloqueo.set("with")
                     aux.change_values(self.pro.name,self.pro.rafaga, self.pro.auxRafaga,self.pro.t_llegada,self.pro.t_final,self.pro.t_comienzo,self.pro.t_retorno,self.pro.t_espera,self.pro.bloqueo,self.pro.row_chart)
                     self.pro.change_values(self.pro.next.name,self.pro.next.rafaga,self.pro.next.auxRafaga,self.pro.next.t_llegada,self.pro.next.t_final,self.pro.next.t_comienzo,self.pro.next.t_retorno,self.pro.next.t_espera,self.pro.next.bloqueo,self.pro.next.row_chart)
                     self.pro.next.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart)
-                    print('==> despues bloqueo')
                     self.print_all()  
               
 if __name__ == '__main__':
     form = form()
     window = Tk()
-    window.title('FCFT')
+    window.title('FCFS')
+    window.config(background='#0d1011')
     app = circle_list(window, form.total_nodes(), form.total_grid())
     app.addNode()
     app.create_dashboard()

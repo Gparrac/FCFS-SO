@@ -16,25 +16,25 @@ class node:  # creamos estructura nodo
 
     def create_space(self, window, last_chart, last_table, total_pro, row_table):
         self.row_chart = last_chart
-        Label(window, text=self.name).grid(
+        Label(window, text=self.name, background='#0d1011',fg="#fd971f", font=("Arial",17)).grid(
             column=0, row=last_chart, padx=5, pady=5)
-        Label(window, text=self.name).grid(
+        Label(window, text=self.name, background='#0d1011',fg="#fd971f", font=("Arial",17)).grid(
             column=1, row=last_table, padx=5, pady=5, columnspan=total_pro)
-        Entry(window, textvariable=self.t_llegada, width=4).grid(
+        Entry(window, textvariable=self.t_llegada, width=4,background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Entry(window, textvariable=self.rafaga, width=4).grid(
+        Entry(window, textvariable=self.rafaga, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*2, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_comienzo, width=4).grid(
+        Label(window, textvariable=self.t_comienzo, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*3, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_final, width=4).grid(
+        Label(window, textvariable=self.t_final, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*4, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_retorno, width=4).grid(
+        Label(window, textvariable=self.t_retorno, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*5, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_espera, width=4).grid(
+        Label(window, textvariable=self.t_espera, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*6, row=last_table, padx=5, pady=5, columnspan=row_table)
 
     def run_critical_section(self, window, column, val):
-        print('proceso:',self.name,'rafaga:',self.auxRafaga,'estado',self.bloqueo.get())
+        
         if val:
             if self.auxRafaga <= self.rafaga.get():
                 if self.bloqueo.get() == 'with':
@@ -45,20 +45,20 @@ class node:  # creamos estructura nodo
                 self.cal_t_retorno()
                 self.cal_t_espera()
                 self.auxRafaga += 1
-                Label(window, width=2, height=1, background="blue").grid(
+                Label(window, width=2, height=1, background="#a6e22e").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return False
             else:                   
-                Label(window, width=2, height=1, background="grey").grid(
+                Label(window, width=2, height=1, background="#777777").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
         else:
             if self.bloqueo.get() == 'without':
-                Label(window, width=2, height=1, background="grey").grid(
+                Label(window, width=2, height=1, background="#777777").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
             else:
-                Label(window, width=2, height=1, background="red").grid(
+                Label(window, width=2, height=1, background="#f92672").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
 
