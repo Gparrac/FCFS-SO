@@ -2,10 +2,10 @@ from tkinter import *
 
 
 class node:  # creamos estructura nodo
-    def __init__(self, name, nex_node=None):
+    def __init__(self, name, nex_node=None,rafaga=0):
         self.name = name
         self.next = nex_node
-        self.rafaga = IntVar(value=0)
+        self.rafaga = IntVar(value=rafaga)
         self.t_llegada = IntVar(value=0)
         self.t_final = IntVar(value=0)
         self.t_comienzo = IntVar(value=0)
@@ -13,7 +13,7 @@ class node:  # creamos estructura nodo
         self.t_espera = IntVar(value=0)
         self.bloqueo = StringVar(value="without")  # with, without, run
         self.auxRafaga = 1
-
+        self.espera = 0
     def create_space(self, window, last_chart, last_table, total_pro, row_table):
         self.row_chart = last_chart
         Label(window, text=self.name, background='#0d1011',fg="#fd971f", font=("Arial",17)).grid(
@@ -58,12 +58,13 @@ class node:  # creamos estructura nodo
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
             else:
+                self.espera+=1
                 Label(window, width=2, height=1, background="#f92672").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
 
     def cal_t_final(self):
-        self.t_final.set(self.auxRafaga+self.t_comienzo.get())
+        self.t_final.set(self.auxRafaga+self.espera+self.t_comienzo.get())
 
     def cal_t_retorno(self):
         self.t_retorno.set(self.t_final.get()-self.t_llegada.get())
@@ -71,7 +72,7 @@ class node:  # creamos estructura nodo
     def cal_t_espera(self):
         self.t_espera.set(self.t_retorno.get()-self.auxRafaga)
 
-    def change_values(self, name, rafaga, auxRafaga ,t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart):
+    def change_values(self, name, rafaga, auxRafaga ,t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart,espera):
         self.name = name
         self.rafaga = rafaga
         self.t_llegada = t_llegada
@@ -82,6 +83,7 @@ class node:  # creamos estructura nodo
         self.bloqueo = bloqueo
         self.row_chart = row_chart
         self.auxRafaga = auxRafaga
+        self.espera = espera
 
     def print(self):
         print('----')
