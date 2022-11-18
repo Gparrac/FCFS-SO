@@ -46,6 +46,7 @@ class circle_list:
         Label(tableHeader, text="T. Espera", background="#0d1011",fg="#66d9ef",font=('Arial',20)).grid(column=self.rows_table*6,row=self.total_pro+10,columnspan=self.rows_table)        
     def start(self):
         self.order_asc()
+        self.order_rafaga()
         self.pro = self.cab.next
         self.print_all()        
         window.after(3000,app.run_chart)
@@ -54,6 +55,21 @@ class circle_list:
         while q.next != self.cab:
             q = q.next;   
         return q
+    def order_rafaga(self, newProcc=False):
+        aux = node('aux')
+        if newProcc:
+            q=self.pro.next
+        else:            
+            q=self.cab.next.next
+        while q != self.cab and q.next != self.cab.next:
+            j= q.next
+            while (j != self.cab):
+                if q.rafaga.get() > j.rafaga.get(): #q > j
+                    aux.change_values(q.name,q.rafaga,q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera)
+                    q.change_values(j.name,j.rafaga,j.auxRafaga,j.t_llegada,j.t_final,j.t_comienzo,j.t_retorno,j.t_espera,j.bloqueo,j.row_chart,j.espera)
+                    j.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera)                    
+                j = j.next
+            q = q.next       
     def order_asc(self):
         aux = node('aux')
         q=self.cab.next
@@ -72,7 +88,7 @@ class circle_list:
             q.print()
             q = q.next;   
     def run_chart(self):
-        self.block_proc()
+        # self.block_proc()
         if self.count_box <= self.total_grid:
             val = True;
             q = self.cab.next
@@ -113,11 +129,26 @@ class circle_list:
     def insertProcc(self):
         ln = self.search_last()
         name = f'P {self.total_pro+1}'
-        ln.next = node(name, self.cab,rafaga=self.rafaga.get())  
+        ln.next = node(name, self.cab,rafaga=self.rafaga.get())          
         ln.next.create_space(self.window,self.count_chart,self.count_table,self.total_pro,self.count_rows_tab)  
+        self.order_rafaga(newProcc=True)
         self.count_chart += 1
         self.count_table += 1  
         self.total_pro += 1
+    def order_newProcc(self,newProcc):
+        aux = node('aux')
+        q=self.pro.next
+        while q != self.cab and q.next != self.cab:
+            q = q.next
+            j= q.next
+            while (j != self.cab):
+                if q.raga.get() > j.rafaga.get(): #q > j
+                    aux.change_values(q.name,q.rafaga,q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera)
+                    q.change_values(j.name,j.rafaga,j.auxRafaga,j.t_llegada,j.t_final,j.t_comienzo,j.t_retorno,j.t_espera,j.bloqueo,j.row_chart,j.espera)
+                    j.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera)                    
+                j = j.next
+            q = q.next           
+
 if __name__ == '__main__':
     form = form()
     window = Tk()
