@@ -32,7 +32,7 @@ class circle_list:
         for i in range(0,self.total_grid ):
             
             Label(self.window, width=2,text=i+1  ,height=1,background='#0d1011',fg="#66d9ef",font=('Arial',15)).grid(column=i+1,row=0,padx=5,pady=5)
-        Button(self.window, text="FCFS",command=self.start,background='#fd971f',fg='#0d1011',font=("Arial",25)).grid(column=2,row=self.total_pro+9,columnspan=self.total_grid-3,pady=20)
+        Button(self.window, text="SJF",command=self.start,background='#fd971f',fg='#0d1011',font=("Arial",25)).grid(column=2,row=self.total_pro+9,columnspan=self.total_grid-3,pady=20)
         Entry(self.window, textvariable=self.rafaga,background='#0d1011',fg='#fd971f',width=2,font=('Arial',22)).grid(column=0,row=self.total_pro+9,pady=20)
         Button(self.window, text="+",command=self.addNewProcc,background='#fd971f',fg='#0d1011',font=('Arial',17)).grid(column=1,row=self.total_pro+9,pady=20)
         LabelFrame(self.window,background="red").grid(column=0,row=self.total_pro+2,columnspan=self.total_grid)
@@ -48,7 +48,7 @@ class circle_list:
         self.order_asc()
         self.order_rafaga()
         self.pro = self.cab.next
-        self.print_all()        
+             
         window.after(3000,app.run_chart)
     def search_last(self):
         q = self.cab.next
@@ -88,7 +88,7 @@ class circle_list:
             q.print()
             q = q.next;   
     def run_chart(self):
-        # self.block_proc()
+        self.block_proc()
         if self.count_box <= self.total_grid:
             val = True;
             q = self.cab.next
@@ -122,6 +122,7 @@ class circle_list:
                         q.change_values(q.next.name,q.next.rafaga,q.next.auxRafaga,q.next.t_llegada,q.next.t_final,q.next.t_comienzo,q.next.t_retorno,q.next.t_espera,q.next.bloqueo,q.next.row_chart,q.next.espera)
                         q.next.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera)
                         q=q.next
+                    print('contador',self.count_box)
                     self.print_all()  
    
     def addNewProcc(self):
@@ -134,25 +135,12 @@ class circle_list:
         self.order_rafaga(newProcc=True)
         self.count_chart += 1
         self.count_table += 1  
-        self.total_pro += 1
-    def order_newProcc(self,newProcc):
-        aux = node('aux')
-        q=self.pro.next
-        while q != self.cab and q.next != self.cab:
-            q = q.next
-            j= q.next
-            while (j != self.cab):
-                if q.raga.get() > j.rafaga.get(): #q > j
-                    aux.change_values(q.name,q.rafaga,q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera)
-                    q.change_values(j.name,j.rafaga,j.auxRafaga,j.t_llegada,j.t_final,j.t_comienzo,j.t_retorno,j.t_espera,j.bloqueo,j.row_chart,j.espera)
-                    j.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera)                    
-                j = j.next
-            q = q.next           
+        self.total_pro += 1       
 
 if __name__ == '__main__':
     form = form()
     window = Tk()
-    window.title('FCFS')
+    window.title('SJF')
     window.config(background='#0d1011')
     app = circle_list(window, form.total_nodes(), form.total_grid())
     app.addNode()
