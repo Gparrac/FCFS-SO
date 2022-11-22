@@ -4,8 +4,8 @@ class form:
         self.win1 = Tk()
         self.win1.config(background='#0d1011')
         #variables
-        self.count_nodes = IntVar(0)
-        self.error = StringVar("")
+        self.count_nodes = IntVar(value=0)
+        self.error = StringVar(value="")
         #formulario
         
         Label(self.win1, text="Cuantos procesos necesitas?",fg="white", background='#0d1011').pack(side=TOP, expand=1,fill=X,ipadx=5)
@@ -22,5 +22,5 @@ class form:
         return self.count_nodes.get() * 10
     def total_nodes(self):
          return self.count_nodes.get()
-if __name__ == '__main__':
-     app = form()
+# if __name__ == '__main__':
+#      app = form()
