@@ -14,7 +14,7 @@ class node:  # creamos estructura nodo
         self.bloqueo = StringVar(value="without")  # with, without, run
         self.auxRafaga = 1
         self.espera = 0
-    def create_space(self, window, last_chart, last_table, total_pro, row_table):
+    def create_space(self, window, last_chart, last_table, total_pro, row_table,row_block,col_block):
         self.row_chart = last_chart
         Label(window, text=self.name, background='#0d1011',fg="#fd971f", font=("Arial",17)).grid(
             column=0, row=last_chart, padx=5, pady=5)
@@ -32,7 +32,7 @@ class node:  # creamos estructura nodo
             column=row_table*5, row=last_table, padx=5, pady=5, columnspan=row_table)
         Label(window, textvariable=self.t_espera, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*6, row=last_table, padx=5, pady=5, columnspan=row_table)
-
+        Label(window, text=self.name, background="#fd971f",fg="#0d1315",font=('Arial',20)).grid(column=col_block,row=row_block,columnspan=3,padx=5)                
     def run_critical_section(self, window, column, val):
         
         if val:
@@ -71,7 +71,8 @@ class node:  # creamos estructura nodo
 
     def cal_t_espera(self):
         self.t_espera.set(self.t_retorno.get()-self.auxRafaga)
-
+    def block_proccess(self, window, col_block, row_block):
+        Label(window, text=self.name, background="#fd971f",fg="#0d1315",font=('Arial',20)).grid(column=col_block,row=row_block,columnspan=3,padx=5)                
     def change_values(self, name, rafaga, auxRafaga ,t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart,espera):
         self.name = name
         self.rafaga = rafaga
