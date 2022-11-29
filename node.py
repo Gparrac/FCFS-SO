@@ -14,23 +14,30 @@ class node:  # creamos estructura nodo
         self.bloqueo = StringVar(value="without")  # with, without, run
         self.auxRafaga = 1
         self.espera = 0
+        self.ht_comienzo = StringVar(value='')
+        self.ht_final = StringVar(value='')
+        self.ht_retorno = StringVar(value='')
+        self.ht_espera = StringVar(value='')
+        self.valPain = False
+        self.newStart = 0
+        
     def create_space(self, window, last_chart, last_table, total_pro, row_table,row_block,col_block):
         self.row_chart = last_chart
         Label(window, text=self.name, background='#0d1011',fg="#fd971f", font=("Arial",17)).grid(
             column=0, row=last_chart, padx=5, pady=5)
         Label(window, text=self.name, background='#0d1011',fg="#fd971f", font=("Arial",17)).grid(
             column=1, row=last_table, padx=5, pady=5, columnspan=total_pro)
-        Entry(window, textvariable=self.t_llegada, width=4,background='#0d1011',fg="white",font=('Arial',17)).grid(
+        Entry(window, textvariable=self.t_llegada,background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Entry(window, textvariable=self.rafaga, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
+        Entry(window, textvariable=self.rafaga, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*2, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_comienzo, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
+        Label(window, textvariable=self.ht_comienzo, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*3, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_final, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
+        Label(window, textvariable=self.ht_final, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*4, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_retorno, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
+        Label(window, textvariable=self.ht_retorno, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*5, row=last_table, padx=5, pady=5, columnspan=row_table)
-        Label(window, textvariable=self.t_espera, width=4, background='#0d1011',fg="white",font=('Arial',17)).grid(
+        Label(window, textvariable=self.ht_espera, background='#0d1011',fg="white",font=('Arial',17)).grid(
             column=row_table*6, row=last_table, padx=5, pady=5, columnspan=row_table)
         Label(window, text=self.name, background="#fd971f",fg="#0d1315",font=('Arial',20)).grid(column=col_block,row=row_block,columnspan=3,padx=5)                
     def run_critical_section(self, window, column, val):
@@ -38,21 +45,26 @@ class node:  # creamos estructura nodo
         if val:
             if self.auxRafaga <= self.rafaga.get():
                 if self.bloqueo.get() == 'with':
+                    self.newStart = column-1   
                     self.bloqueo.set('without')
                 if self.auxRafaga == 1:                    
-                    self.t_comienzo.set(column-1)                
+                    self.t_comienzo.set(column-1)
+                    self.newStart = column-1                
                 self.cal_t_final()
                 self.cal_t_retorno()
                 self.cal_t_espera()
                 self.auxRafaga += 1
+                self.valPain = True
                 Label(window, width=2, height=1, background="#a6e22e").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return False
-            else:                   
+            else:   
+                self.setHistory(column)                
                 Label(window, width=2, height=1, background="#777777").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
         else:
+            self.setHistory(column)
             if self.bloqueo.get() == 'without':
                 Label(window, width=2, height=1, background="#777777").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
@@ -62,8 +74,16 @@ class node:  # creamos estructura nodo
                 Label(window, width=2, height=1, background="#f92672").grid(
                     column=column, row=self.row_chart, padx=5, pady=5)
                 return True
-
+    def setHistory(self,col):
+        if self.valPain:
+            
+            self.ht_comienzo.set(value=self.ht_final.get() + '  ' +str( self.newStart))
+            self.ht_final.set(value=self.ht_final.get() + '  ' + str(self.t_final.get()))
+            self.ht_retorno.set(value=self.ht_retorno.get() + '  ' + str(self.t_retorno.get()))
+            self.ht_espera.set(value=self.ht_espera.get() + '  ' + str(self.t_espera.get()))
+        self.valPain = False;
     def cal_t_final(self):
+        print('entrando',self.name,self.auxRafaga,self.espera,self.t_comienzo.get())
         self.t_final.set(self.auxRafaga+self.espera+self.t_comienzo.get())
 
     def cal_t_retorno(self):
@@ -73,7 +93,7 @@ class node:  # creamos estructura nodo
         self.t_espera.set(self.t_retorno.get()-self.auxRafaga)
     def block_proccess(self, window, col_block, row_block):
         Label(window, text=self.name, background="#fd971f",fg="#0d1315",font=('Arial',20)).grid(column=col_block,row=row_block,columnspan=3,padx=5)                
-    def change_values(self, name, rafaga, auxRafaga ,t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart,espera):
+    def change_values(self, name, rafaga, auxRafaga ,t_llegada, t_final, t_comienzo, t_retorno, t_espera, bloqueo, row_chart,espera,ht_comienzo, ht_final, ht_retorno, ht_espera, valPain,newStart):
         self.name = name
         self.rafaga = rafaga
         self.t_llegada = t_llegada
@@ -84,7 +104,13 @@ class node:  # creamos estructura nodo
         self.bloqueo = bloqueo
         self.row_chart = row_chart
         self.auxRafaga = auxRafaga
-        self.espera = espera
+        self.espera = espera 
+        self.ht_comienzo = ht_comienzo
+        self.ht_final = ht_final
+        self.ht_retorno = ht_retorno
+        self.ht_espera = ht_espera
+        self.valPain = valPain
+        self.newStart = newStart
 
     def print(self):
         print('----')

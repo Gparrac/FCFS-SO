@@ -61,7 +61,7 @@ class circle_list:
     def start(self):
         self.order_asc()
         self.pro = self.cab.next
-        self.print_all()        
+            
         window.after(3000,app.run_chart)
     def search_last(self):
         q = self.cab.next
@@ -75,9 +75,9 @@ class circle_list:
             j= q.next
             while (j != self.cab):
                 if q.t_llegada.get() > j.t_llegada.get(): #q > j
-                    aux.change_values(q.name,q.rafaga,q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera)
-                    q.change_values(j.name,j.rafaga,j.auxRafaga,j.t_llegada,j.t_final,j.t_comienzo,j.t_retorno,j.t_espera,j.bloqueo,j.row_chart,j.espera)
-                    j.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera)                    
+                    aux.change_values(q.name,q.rafaga,q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera,q.ht_comienzo,q.ht_final,q.ht_retorno,q.ht_espera,q.valPain,q.newStart)
+                    q.change_values(j.name,j.rafaga,j.auxRafaga,j.t_llegada,j.t_final,j.t_comienzo,j.t_retorno,j.t_espera,j.bloqueo,j.row_chart,j.espera,j.ht_comienzo,j.ht_final,j.ht_retorno,j.ht_espera,j.valPain,j.newStart)
+                    j.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera,aux.ht_comienzo,aux.ht_final,aux.ht_retorno,aux.ht_espera,aux.valPain,aux.newStart)                    
                 j = j.next
             q = q.next                   
     def print_all(self):
@@ -121,11 +121,11 @@ class circle_list:
                     while q.next !=self.cab:                         
                         
                         self.pro.bloqueo.set("with")
-                        aux.change_values(q.name,q.rafaga, q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera)
-                        q.change_values(q.next.name,q.next.rafaga,q.next.auxRafaga,q.next.t_llegada,q.next.t_final,q.next.t_comienzo,q.next.t_retorno,q.next.t_espera,q.next.bloqueo,q.next.row_chart,q.next.espera)
-                        q.next.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera)
+                        aux.change_values(q.name,q.rafaga, q.auxRafaga,q.t_llegada,q.t_final,q.t_comienzo,q.t_retorno,q.t_espera,q.bloqueo,q.row_chart,q.espera,q.ht_comienzo,q.ht_final,q.ht_retorno,q.ht_espera,q.valPain,q.newStart)
+                        q.change_values(q.next.name,q.next.rafaga,q.next.auxRafaga,q.next.t_llegada,q.next.t_final,q.next.t_comienzo,q.next.t_retorno,q.next.t_espera,q.next.bloqueo,q.next.row_chart,q.next.espera,q.next.ht_comienzo,q.next.ht_final,q.next.ht_retorno,q.next.ht_espera,q.next.valPain, q.next.newStart)
+                        q.next.change_values(aux.name,aux.rafaga,aux.auxRafaga,aux.t_llegada,aux.t_final,aux.t_comienzo,aux.t_retorno,aux.t_espera,aux.bloqueo,aux.row_chart,aux.espera,aux.ht_comienzo,aux.ht_final,aux.ht_retorno,aux.ht_espera,aux.valPain,aux.newStart)
                         q=q.next
-                    self.print_all()  
+                     
    
     def addNewProcc(self):
         self.window.after(1000,self.insertProcc)
